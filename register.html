@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 🐶🐶筛选工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .register-container {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .register-header h1 {
+            color: #4361ee;
+            margin-bottom: 10px;
+        }
+        .register-header p {
+            color: #666;
+        }
+        .register-form .form-group {
+            margin-bottom: 20px;
+        }
+        .register-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: #4cc9f0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .register-btn:hover {
+            background: #3db0d6;
+        }
+        .register-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .register-links a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .plan-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .plan-card {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .plan-card:hover {
+            border-color: #4361ee;
+        }
+        .plan-card.selected {
+            border-color: #4361ee;
+            background: #f0f4ff;
+        }
+        .plan-card h4 {
+            margin-bottom: 10px;
+            color: #4361ee;
+        }
+        .plan-card .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f72585;
+        }
+        .plan-card .desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-error {
+            background: #fdecea;
+            color: #c53030;
+            border: 1px solid #feb2b2;
+        }
+        .alert-success {
+            background: #e6fffa;
+            color: #234e52;
+            border: 1px solid #81e6d9;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-icon">🐶🐶</span>
+                <span class="nav-title">筛选工具</span>
+            </a>
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <div class="register-container">
+        <div class="register-header">
+            <h1><i class="fas fa-user-plus"></i> 用户注册</h1>
+            <p>创建您的账号，开始使用筛选工具</p>
+        </div>
+        
+        <div id="alertMessage" class="alert" style="display: none;"></div>
+        
+        <form id="registerForm" class="register-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> 用户名</label>
+                    <input type="text" id="regUsername" class="form-control" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> 邮箱（可选）</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="请输入邮箱">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> 密码</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="请输入密码" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> 确认密码</label>
+                    <input type="password" id="regConfirm" class="form-control" placeholder="请再次输入密码" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>选择会员类型</label>
+                <div class="plan-selector">
+                    <div class="plan-card" onclick="selectPlan('free')" id="freePlan">
+                        <h4>免费用户</h4>
+                        <p>基础功能</p>
+                        <div class="price">免费</div>
+                        <div class="desc">查看基础信息</div>
+                    </div>
+                    <div class="plan-card selected" onclick="selectPlan('vip')" id="vipPlan">
+                        <h4>VIP会员</h4>
+                        <p>完整功能</p>
+                        <div class="price">试用7天</div>
+                        <div class="desc">查看所有信息 + 导出</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="agreeTerms" required>
+                    我同意 <a href="#" onclick="showTerms()">服务条款</a> 和 <a href="#" onclick="showPrivacy()">隐私政策</a>
+                </label>
+            </div>
+            
+            <button type="submit" class="register-btn">
+                <i class="fas fa-user-plus"></i> 注册账号
+            </button>
+        </form>
+        
+        <div class="register-links">
+            <p>已有账号？ <a href="login.html">立即登录</a></p>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        let selectedPlan = 'vip';
+        
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            document.getElementById('freePlan').classList.remove('selected');
+            document.getElementById('vipPlan').classList.remove('selected');
+            document.getElementById(plan + 'Plan').classList.add('selected');
+        }
+        
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('alertMessage');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            // 验证
+            if (!username || !password || !confirm) {
+                showAlert('请填写所有必填字段', 'error');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showAlert('两次输入的密码不一致', 'error');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                showAlert('请同意服务条款', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('密码长度至少6位', 'error');
+                return;
+            }
+            
+            // 调用注册函数
+            const result = window.authManager.register(username, password, email);
+            
+            if (result.success) {
+                showAlert('注册成功！正在自动登录...', 'success');
+                
+                // 如果是VIP计划，升级用户
+                if (selectedPlan === 'vip') {
+                    window.authManager.upgradeToVIP(result.user.id, 7); // 7天试用
+                }
+                
+                // 3秒后跳转到首页
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+            } else {
+                showAlert(result.message || '注册失败，请稍后重试', 'error');
+            }
+        });
+        
+        function showTerms() {
+            alert('服务条款：\n\n1. 用户需遵守国家法律法规\n2. 不得利用本系统进行非法活动\n3. 我们保留修改条款的权利\n4. 最终解释权归平台所有');
+        }
+        
+        function showPrivacy() {
+            alert('隐私政策：\n\n1. 我们保护用户的个人信息\n2. 数据存储在浏览器本地\n3. 不会收集敏感信息\n4. 用户可以随时导出和删除数据');
+        }
+    </script>
+</body>
+</html>
