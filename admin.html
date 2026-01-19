@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 🐶🐶筛选工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐶</text></svg>">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-icon">🐶🐶</span>
+                <span class="nav-title">筛选工具</span>
+                <span class="nav-subtitle">管理员后台</span>
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> 返回首页
+                </a>
+                <a href="admin.html" class="nav-link active">
+                    <i class="fas fa-cog"></i> 系统管理
+                </a>
+                <a href="#" id="logoutBtn" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-login" id="adminLogin">
+        <div class="container">
+            <div class="login-card">
+                <h2><i class="fas fa-user-shield"></i> 管理员登录</h2>
+                <p>请输入管理员密码以访问后台</p>
+                <div class="form-group">
+                    <input type="password" id="adminPassword" class="form-control" placeholder="请输入管理员密码">
+                </div>
+                <button id="adminLoginBtn" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> 登录
+                </button>
+                <div class="text-center mt-2">
+                    <a href="index.html" class="text-muted">
+                        <i class="fas fa-arrow-left"></i> 返回普通用户界面
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="admin-dashboard hidden" id="adminDashboard">
+        <div class="container">
+            <header class="page-header">
+                <h1><i class="fas fa-user-shield"></i> 系统管理后台</h1>
+                <p class="page-subtitle">数据管理 · 用户管理 · 系统配置</p>
+            </header>
+
+            <div class="admin-grid">
+                <aside class="admin-sidebar">
+                    <div class="admin-user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>管理员</h3>
+                        <p class="text-muted">系统管理员</p>
+                    </div>
+                    <nav class="admin-nav">
+                        <a href="#data" class="admin-nav-link active">
+                            <i class="fas fa-database"></i> 数据管理
+                        </a>
+                        <a href="#users" class="admin-nav-link">
+                            <i class="fas fa-users"></i> 用户管理
+                        </a>
+                        <a href="#settings" class="admin-nav-link">
+                            <i class="fas fa-cogs"></i> 系统设置
+                        </a>
+                    </nav>
+                </aside>
+
+                <section class="admin-content">
+                    <div class="admin-section active" id="dataSection">
+                        <div class="admin-section-header">
+                            <h2><i class="fas fa-database"></i> 数据管理</h2>
+                            <div class="admin-actions">
+                                <button class="btn btn-primary" id="refreshData">
+                                    <i class="fas fa-sync"></i> 刷新
+                                </button>
+                                <button class="btn btn-success" id="exportAllData">
+                                    <i class="fas fa-download"></i> 导出全部
+                                </button>
+                            </div>
+                        </div>
+                        <div class="admin-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon" style="background: #4361ee;">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalRecords">0</h3>
+                                    <p>总记录数</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-table-container">
+                            <h3>数据记录</h3>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>编号</th>
+                                            <th>类别</th>
+                                            <th>年龄</th>
+                                            <th>地区</th>
+                                            <th>种类</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminDataTable">
+                                        <!-- 数据动态加载 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="usersSection">
+                        <div class="admin-section-header">
+                            <h2><i class="fas fa-users"></i> 用户管理</h2>
+                        </div>
+                        <div class="users-table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>用户名</th>
+                                        <th>角色</th>
+                                        <th>注册时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <!-- 用户数据动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="settingsSection">
+                        <div class="admin-section-header">
+                            <h2><i class="fas fa-cogs"></i> 系统设置</h2>
+                        </div>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>网站名称</label>
+                                <input type="text" id="siteName" class="form-control" value="🐶🐶筛选工具">
+                            </div>
+                            <div class="form-group">
+                                <label>管理员密码</label>
+                                <input type="password" id="newAdminPassword" class="form-control" placeholder="输入新密码">
+                            </div>
+                            <button class="btn btn-primary" id="saveSettings">
+                                <i class="fas fa-save"></i> 保存设置
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-paw"></i> 🐶🐶筛选工具</h4>
+                    <p>专业的人员信息筛选管理平台</p>
+                    <p>© 2023 版权所有</p>
+                </div>
+                <div class="footer-section">
+                    <h4>管理功能</h4>
+                    <a href="#data"><i class="fas fa-database"></i> 数据管理</a>
+                    <a href="#users"><i class="fas fa-users"></i> 用户管理</a>
+                    <a href="#settings"><i class="fas fa-cogs"></i> 系统设置</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="data-manager.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
